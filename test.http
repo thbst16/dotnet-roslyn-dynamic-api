@@ -1,4 +1,4 @@
-@host = https://localhost:7190
+@host = https://localhost:5001
 @contentType = application/json
 
 GET {{host}}/api/entity HTTP/1.1

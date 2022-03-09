@@ -76,9 +76,8 @@ namespace dotnet_roslyn_dynamic_api.Controllers
                 .AppendLine("using System;")
                 .AppendLine("using System.Collections.Generic;")
                 .AppendLine("using Microsoft.AspNetCore.Mvc;")
-                .AppendLine("using dotnet_roslyn_dynamic_api;")
                 .AppendLine("using dotnet_roslyn_dynamic_api.Models;")
-                .AppendLine("namespace dotnet_roslyn_dynamic_api.Controllers")
+                .AppendLine("namespace dotnet_roslyn_dynamic_api")
                 .AppendLine("{")
                 .AppendLine("[Route(\"api/[controller]\")]")
                 .AppendLine(string.Format("public class {0}Controller : ControllerBase", name))
@@ -152,7 +151,10 @@ namespace dotnet_roslyn_dynamic_api.Controllers
                         diagnostic.IsWarningAsError ||
                         diagnostic.Severity == DiagnosticSeverity.Error
                     );
-                    System.Console.WriteLine(failures);
+                    foreach (Diagnostic fail in failures)
+                    {
+                        System.Console.WriteLine(fail);
+                    }
                     return null;
                 }
                 return Assembly.Load(peStream.ToArray());
