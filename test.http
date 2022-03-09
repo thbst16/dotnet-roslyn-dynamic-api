@@ -1,0 +1,46 @@
+@host = https://localhost:7190
+@contentType = application/json
+
+GET {{host}}/api/entity HTTP/1.1
+
+###
+
+POST {{host}}/api/entity/3fa85f64-5717-4562-b3fc-2c963f66afff HTTP/1.1
+Content-Type: {{contentType}}
+
+{
+  "id": "3fa85f64-5717-4562-b3fc-2c963f66afff",
+  "name": "MP3",
+  "isActive": true
+}
+
+###
+
+GET {{host}}/api/album HTTP/1.1
+
+###
+
+POST {{host}}/api/album/3fa85f64-5717-4562-b3fc-2c963f66afa6 HTTP/1.1
+Content-Type: {{contentType}}
+
+{
+  "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "title": "Album 1",
+  "artist": "Artist 1",
+  "tracks": 7
+}
+
+###
+
+GET {{host}}/api/book HTTP/1.1
+
+###
+
+POST {{host}}/api/book/3fa85f64-5717-4562-b3fc-2c963f66afa7 HTTP/1.1
+Content-Type: {{contentType}}
+
+{
+  "id": "3fa85f64-5717-4562-b3fc-2c963f66afa7",
+  "title": "Book 1",
+  "author": "Author 1"
+}
