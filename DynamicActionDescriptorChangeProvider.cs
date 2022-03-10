@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.Primitives;
-using System.Threading;
 
 namespace dotnet_roslyn_dynamic_api
 {

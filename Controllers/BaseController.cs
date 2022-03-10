@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 
 namespace dotnet_roslyn_dynamic_api.Controllers
