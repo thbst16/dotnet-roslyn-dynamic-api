@@ -28,6 +28,7 @@ namespace dotnet_roslyn_dynamic_api.Controllers
                 {
                     Id = Guid.NewGuid(),
                     Name = className,
+                    Fields = string.Empty,
                     isActive = true
                 };
                 _storage.Add(_ent.Id, _ent);
@@ -51,7 +52,7 @@ namespace dotnet_roslyn_dynamic_api.Controllers
         {
             _storage.Add(id, value);
             // Create Controller Using Roslyn - Method Below
-            var dynamicAssembly = CreateController(value.Name);
+            var dynamicAssembly = CreateController(value.Name, value.Fields);
             if (dynamicAssembly != null)
             {
                 // Adds a new application part (e.g. controller, view) to the collection
@@ -66,7 +67,7 @@ namespace dotnet_roslyn_dynamic_api.Controllers
             }
         }
 
-        private Assembly CreateController(string name)
+        private Assembly CreateController(string name, string fields)
         {
             // Use a simple StringBuilder to create the dynamic code
             string code = new StringBuilder()
@@ -103,8 +104,7 @@ namespace dotnet_roslyn_dynamic_api.Controllers
                 .AppendLine(" }")
                 .AppendLine(string.Format("public class {0}", name))
                 .AppendLine(" {")
-                .AppendLine("  public Guid id {get;set;}")
-                .AppendLine("  public string Name {get;set;}")
+                .AppendLine(string.Format("{0}", fields))
                 .AppendLine(" }")
                 .AppendLine("}")
                 .ToString();
