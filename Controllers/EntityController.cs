@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 using Microsoft.AspNetCore.Mvc;
@@ -8,7 +6,6 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Emit;
 using Microsoft.CodeAnalysis.Text;
-using dotnet_roslyn_dynamic_api;
 using dotnet_roslyn_dynamic_api.Models;
 
 namespace dotnet_roslyn_dynamic_api.Controllers
@@ -74,40 +71,41 @@ namespace dotnet_roslyn_dynamic_api.Controllers
             // Use a simple StringBuilder to create the dynamic code
             string code = new StringBuilder()
                 .AppendLine("using System;")
-                .AppendLine("using System.Collections.Generic;")
                 .AppendLine("using Microsoft.AspNetCore.Mvc;")
-                .AppendLine("using dotnet_roslyn_dynamic_api.Models;")
-                .AppendLine("namespace dotnet_roslyn_dynamic_api")
+                .AppendLine("using System.Collections.Generic;")
+                .AppendLine("using dotnet_roslyn_dynamic_api;")
+                .AppendLine("namespace dotnet_roslyn_dynamic_api.Controllers")
                 .AppendLine("{")
                 .AppendLine("[Route(\"api/[controller]\")]")
+                .AppendLine("[ApiController]")
                 .AppendLine(string.Format("public class {0}Controller : ControllerBase", name))
-                .AppendLine("{")
+                .AppendLine(" {")
                 .AppendLine(string.Format("private Storage<{0}> _storage;", name))
-                .AppendLine("{")
-                .AppendLine("_storage = storage;")
-                .AppendLine("}")
+                .AppendLine(string.Format("public {0}Controller(Storage<{0}> storage)", name))
+                .AppendLine("  {")
+                .AppendLine("   _storage = storage;")
+                .AppendLine("  }")
                 .AppendLine("[HttpGet]")
                 .AppendLine(string.Format("public IEnumerable<{0}> Get()", name))
-                .AppendLine("{")
-                .AppendLine("return _storage.GetAll();")
-                .AppendLine("}")
+                .AppendLine("  {")
+                .AppendLine("   return _storage.GetAll();")
+                .AppendLine("  }")
                 .AppendLine("[HttpGet(\"{id}\")]")
                 .AppendLine(string.Format("public {0} Get(Guid id)", name))
-                .AppendLine("{")
-                .AppendLine("return _storage.GetById(id);")
-                .AppendLine("}")
+                .AppendLine("  {")
+                .AppendLine("   return _storage.GetById(id);")
+                .AppendLine("  }")
                 .AppendLine("[HttpPost(\"{id}\")]")
-                .AppendLine(String.Format("public void Post(Guid id, [FromBody]{0} value)", name))
-                .AppendLine("{")
-                .AppendLine("_storage.Add(id, value);")
-                .AppendLine("}")
-                .AppendLine("}")
-                .AppendLine("")
-                .AppendLine(String.Format("public class {0}", name))
-                .AppendLine("{")
-                .AppendLine("public Guid id {get;set;}")
-                .AppendLine("public string Name {get;set;}")
-                .AppendLine("}")
+                .AppendLine(string.Format("public void Post(Guid id, [FromBody]{0} value)", name))
+                .AppendLine("  {")
+                .AppendLine("   _storage.Add(id, value);")
+                .AppendLine("  }")         
+                .AppendLine(" }")
+                .AppendLine(string.Format("public class {0}", name))
+                .AppendLine(" {")
+                .AppendLine("  public Guid id {get;set;}")
+                .AppendLine("  public string Name {get;set;}")
+                .AppendLine(" }")
                 .AppendLine("}")
                 .ToString();
 
@@ -125,6 +123,8 @@ namespace dotnet_roslyn_dynamic_api.Controllers
                 MetadataReference.CreateFromFile(typeof(RouteAttribute).Assembly.Location),
                 MetadataReference.CreateFromFile(typeof(ApiControllerAttribute).Assembly.Location),
                 MetadataReference.CreateFromFile(typeof(ControllerBase).Assembly.Location),
+                MetadataReference.CreateFromFile(typeof(Storage<>).Assembly.Location),
+                MetadataReference.CreateFromFile(typeof(IEnumerable<>).Assembly.Location),
             };
 
             // Added for .NET 5.0
