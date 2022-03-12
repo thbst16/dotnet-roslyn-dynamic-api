@@ -12,6 +12,13 @@ The image below represents notionally how Roslyn is invoked to dynamically add n
 
 ![roslyn api allocations](https://s3.amazonaws.com/s3.beckshome.com/20220311-dotnet-roslyn-dynamic-api-allocations.jpg)
 
+# Impact and Future
+
+This project has, at it's kernel, all the functionality necessary to deal with rendering and managing a dynamic API with startup and runtime API definition capabilities. The hard work is done. What remains is several areas of refinement:
+
+* **Configurability** - Defining the API through a GIST file and requiring C# class definitions for dynamic and runtime API definition presents a very low level of abstraction for the user. These functions need to be moved to key-value pair defintions that can be passed via the API and persisted in a readily accessible online mechanism, such as a database.
+* **Dynamic User Interface** - The next step for dynamic generation capabilities is moving from APIs to user interfaces. Since the generation occurs at the controller level in ASP.NET Core, dynamic generation can be applied to any of the ASP.NET view technologies that use controllers. Ideally suited as a technology here is Server-hosted Blazor. This technology provides a dynamic front-end controlled by a single C# code base so that there's no need to generate seperate front-end Javascript code. Read [here](https://alistapart.com/article/the-future-of-web-software-is-html-over-websockets/) for a sense of what this may look like as html over websockets is exactly the technology that server-hosted Blazor uses.
+
 # Motivation and Credits
 
 Code generation and metaprogramming with Roslyn, especially in conjuntion with ASP.NET Core, is one of the dark corners of the .NET landscape. Two articles in particular illuminated and informed me in my understanding of Roslyn:
