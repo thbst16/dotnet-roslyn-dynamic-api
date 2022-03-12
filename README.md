@@ -15,6 +15,14 @@ The image below represents notionally how Roslyn is invoked to dynamically add n
 
 ![roslyn api allocations](https://s3.amazonaws.com/s3.beckshome.com/20220311-dotnet-roslyn-dynamic-api-allocations.jpg)
 
+# In Action
+
+The best way to understand what's going on is to look at the API documentation and invoke the API calls.
+
+## Static and Dnyamic APIs
+
+From the [Swagger API documentation](https://dotnet-roslyn-dynamic-api.azurewebsites.net/swagger/index.html), you'll see that there are two APIs represented at startup time -- Entity and Book. 
+
 # Impact and Future
 
 This project has, at it's kernel, all the functionality necessary to deal with rendering and managing a dynamic API with startup and runtime API definition capabilities. The hard work is done. What remains is several areas of refinement:
