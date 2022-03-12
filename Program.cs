@@ -31,6 +31,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI(c => 
     {
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "RoslynControllers v1");
+        c.RoutePrefix = string.Empty;
         c.DefaultModelsExpandDepth(-1);
     });
 }
