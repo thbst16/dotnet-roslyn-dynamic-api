@@ -52,6 +52,6 @@ stages:
     - task: AzureWebAppContainer@1
       displayName: Deploy the docker image
       inputs:
-        azureSubscription: becksAzure
+        azureSubscription: becksAzureRM
         appName: dotnet-roslyn-dynamic-api
         multicontainerConfigFile: $(workingDirectory)/docker-compose.yml
