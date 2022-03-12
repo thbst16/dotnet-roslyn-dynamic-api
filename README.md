@@ -17,11 +17,31 @@ The image below represents notionally how Roslyn is invoked to dynamically add n
 
 # In Action
 
-The best way to understand what's going on is to look at the API documentation and invoke the API calls.
+The best way to understand what's going on is to look at the API documentation and invoke the API calls. All of the APIs that are generated below allow data persistence and retrieval for the resulting entites, with the API backed by an in-memory data store.
 
-## Static and Dnyamic APIs
+## Static and Dynamic APIs
 
 From the [Swagger API documentation](https://dotnet-roslyn-dynamic-api.azurewebsites.net/swagger/index.html), you'll see that there are two APIs represented at startup time -- Entity and Book. 
+
+![roslyn controller swagger](https://s3.amazonaws.com/s3.beckshome.com/20220312-dotnet-roslyn-dynamic-api-swagger.jpg)
+
+The entity controller is static and provides methods to get a listing of existing controllers or to generate new controllers. The Book controller is created dynamically using a reference to a [specific Gist File](https://gist.github.com/thbst16/aabe3c9ed19f98b96572ca5dcb61d19d) that defines all the APIs to be created dynamically at runtime. This file is read at process startup and controllers / APIs created for each of the defined classes. A GET call to the Entity API shows the current APIs.
+
+![roslyn initial apis](https://s3.amazonaws.com/s3.beckshome.com/20220312-dotnet-roslyn-dynamic-api-entities1.jpg)
+
+## Runtime Generated APIs
+
+Making a call to the POST method of the Entity API and passing a new entity name and C# class construct will cause Roslyn to create a new Controller / API at runtime.
+
+![roslyn new entity](https://s3.amazonaws.com/s3.beckshome.com/20220312-dotnet-roslyn-dynamic-api-new-entity.jpg)
+
+This new entity is then reflected in the list of avaialble entities.
+
+![roslyn modified apis](https://s3.amazonaws.com/s3.beckshome.com/20220312-dotnet-roslyn-dynamic-api-entities2.jpg)
+
+And is also reflected in the Swagger API documentation.
+
+![roslyn modified controller swagger](https://s3.amazonaws.com/s3.beckshome.com/20220312-dotnet-roslyn-dynamic-api-swagger2.jpg)
 
 # Impact and Future
 
