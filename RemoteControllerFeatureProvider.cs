@@ -12,7 +12,7 @@ namespace dotnet_roslyn_dynamic_api
     {   
         public void PopulateFeature(IEnumerable<ApplicationPart> parts, ControllerFeature feature)
         {
-            var remoteCode = new HttpClient().GetStringAsync("https://gist.githubusercontent.com/thbst16/fec3033c371b2a31ce7c852e2ef89bf8/raw/29cb1b0744d238fe65c34bb028cb5b12dfd6ff83/gistfile1.txt").GetAwaiter().GetResult();
+            var remoteCode = new HttpClient().GetStringAsync("https://gist.githubusercontent.com/thbst16/aabe3c9ed19f98b96572ca5dcb61d19d/raw/40050db65746f5971f56609e181e8b1852cba5fe/gistfile1.txt").GetAwaiter().GetResult();
             if (remoteCode != null)
             {
                 var compilation = CSharpCompilation.Create("DynamicAssembly", new[] { CSharpSyntaxTree.ParseText(remoteCode) },
