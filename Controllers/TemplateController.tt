@@ -1,0 +1,41 @@
+using System;
+using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+
+namespace dotnet_roslyn_dynamic_api.Controllers
+{
+    [ApiController]
+    [Route("api/[controller]")]
+    public class __name__Controller : ControllerBase
+    {
+        private Storage<__name__> _storage;
+
+        public __name__Controller(Storage<__name__> storage)
+        {
+            _storage = storage;
+        }
+
+        [HttpGet]
+        public IEnumerable<__name__> Get()
+        {
+            return _storage.GetAll();
+        }
+
+        [HttpGet("{id}")]
+        public __name__ Get(Guid id)
+        {
+            return _storage.GetById(id);
+        }
+
+        [HttpPost("{id}")]
+        public void Post(Guid id, [FromBody]__name__ value)
+        {
+            _storage.Add(id, value);
+        }
+    }
+
+    public class __name__
+    {
+        __fields__
+    }
+}

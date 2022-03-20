@@ -1,4 +1,4 @@
-## @host = http://localhost:8080
+## @host = http://localhost:5001
 @host = https://dotnet-roslyn-dynamic-api.azurewebsites.net/
 @contentType = application/json
 

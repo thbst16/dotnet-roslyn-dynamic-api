@@ -69,45 +69,10 @@ namespace dotnet_roslyn_dynamic_api.Controllers
 
         private Assembly CreateController(string name, string fields)
         {
-            // Use a simple StringBuilder to create the dynamic code
-            string code = new StringBuilder()
-                .AppendLine("using System;")
-                .AppendLine("using Microsoft.AspNetCore.Mvc;")
-                .AppendLine("using System.Collections.Generic;")
-                .AppendLine("using dotnet_roslyn_dynamic_api;")
-                .AppendLine("namespace dotnet_roslyn_dynamic_api.Controllers")
-                .AppendLine("{")
-                .AppendLine("[Route(\"api/[controller]\")]")
-                .AppendLine("[ApiController]")
-                .AppendLine(string.Format("public class {0}Controller : ControllerBase", name))
-                .AppendLine(" {")
-                .AppendLine(string.Format("private Storage<{0}> _storage;", name))
-                .AppendLine(string.Format("public {0}Controller(Storage<{0}> storage)", name))
-                .AppendLine("  {")
-                .AppendLine("   _storage = storage;")
-                .AppendLine("  }")
-                .AppendLine("[HttpGet]")
-                .AppendLine(string.Format("public IEnumerable<{0}> Get()", name))
-                .AppendLine("  {")
-                .AppendLine("   return _storage.GetAll();")
-                .AppendLine("  }")
-                .AppendLine("[HttpGet(\"{id}\")]")
-                .AppendLine(string.Format("public {0} Get(Guid id)", name))
-                .AppendLine("  {")
-                .AppendLine("   return _storage.GetById(id);")
-                .AppendLine("  }")
-                .AppendLine("[HttpPost(\"{id}\")]")
-                .AppendLine(string.Format("public void Post(Guid id, [FromBody]{0} value)", name))
-                .AppendLine("  {")
-                .AppendLine("   _storage.Add(id, value);")
-                .AppendLine("  }")         
-                .AppendLine(" }")
-                .AppendLine(string.Format("public class {0}", name))
-                .AppendLine(" {")
-                .AppendLine(string.Format("{0}", fields))
-                .AppendLine(" }")
-                .AppendLine("}")
-                .ToString();
+            // Build the dynamic code from a template
+            string templateFileName = @"Controllers/TemplateController.tt";
+            string templateFileContent = System.IO.File.ReadAllText(templateFileName);
+            string code = templateFileContent.Replace("__name__", name).Replace("__fields__", fields);
 
             // Produce syntax tree by parsing c# code
             var codeString = SourceText.From(code);
