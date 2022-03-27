@@ -10,7 +10,7 @@ Generates a dynamic REST-based API using the Roslyn Compiler as a Service (CaaS)
 The image below represents notionally how Roslyn is invoked to dynamically add new assemblies and the resultant APIs:
 
 * **Static Allocation** - Ons startup, only the Entity API is available. The API is served from the Base.dll. The Entity API contains a GET method to list the other APIs provisioned dynamically and a POST API method to create new APIs at runtime.
-* **Dynamic Allocation** - At process startup, a call is made to retrieve API definitions (C# classes) from a Gist file. These service(s) are combiled by Roslyn into Dynamic.dll and served up as new APIs with their own GET and POST methods to store and access data.
+* **Dynamic Allocation** - At process startup, a call is made to retrieve API definitions (C# classes) from a public Azure BLOB file. These service(s) are combiled by Roslyn into Dynamic.dll and served up as new APIs with their own GET and POST methods to store and access data.
 * **Runtime Allocation** - Calling the Entity POST method allows new APIs to be defined dynamically at runtime. The call accepts an API name and definition (C# classes) as parameters and uses Roslyn to dynamically compile these methods into a new assembly (Runtime.dll) that exposes GET and POST methods for the new API.
 
 ![roslyn api allocations](https://s3.amazonaws.com/s3.beckshome.com/20220311-dotnet-roslyn-dynamic-api-allocations.jpg)
@@ -25,7 +25,7 @@ From the [Swagger API documentation](https://dotnet-roslyn-dynamic-api.azurewebs
 
 ![roslyn controller swagger](https://s3.amazonaws.com/s3.beckshome.com/20220312-dotnet-roslyn-dynamic-api-swagger.jpg)
 
-The entity controller is static and provides methods to get a listing of existing controllers or to generate new controllers. The Book controller is created dynamically using a reference to a [specific Gist File](https://gist.github.com/thbst16/aabe3c9ed19f98b96572ca5dcb61d19d) that defines all the APIs to be created dynamically at runtime. This file is read at process startup and controllers / APIs created for each of the defined classes. A GET call to the Entity API shows the current APIs.
+The entity controller is static and provides methods to get a listing of existing controllers or to generate new controllers. The Book controller is created dynamically using a reference to a specific [public Azure BLOB file](https://sheetnotifications.blob.core.windows.net/public/rosslyn-classes.txt) that defines all the APIs to be created dynamically at runtime. This file is read at process startup and controllers / APIs created for each of the defined classes. A GET call to the Entity API shows the current APIs.
 
 ![roslyn initial apis](https://s3.amazonaws.com/s3.beckshome.com/20220312-dotnet-roslyn-dynamic-api-entities1.jpg)
 
