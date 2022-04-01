@@ -9,6 +9,12 @@ project.lock.json
 # Visual Studio Code
 .vscode
 
+# Azure storage data
+/Data
+
+# Configuration Values
+**/appsettings.json
+
 # User-specific files
 *.suo
 *.user
