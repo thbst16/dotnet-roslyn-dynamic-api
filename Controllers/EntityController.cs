@@ -126,15 +126,15 @@ namespace dotnet_roslyn_dynamic_api.Controllers
                 
                 // Insert code to append the fields value to the Azure BLOB file
                 // Setup and retrieve basic job settings
-                IConfiguration config = new ConfigurationBuilder()
-                    .AddJsonFile("config/appsettings.json")
-                    .AddEnvironmentVariables()
-                    .Build();
-                AzureBlobSettings azureBlobSettings = config.GetRequiredSection("AzureBlob").Get<AzureBlobSettings>();
+                //IConfiguration config = new ConfigurationBuilder()
+                //    .AddJsonFile("config/appsettings.json")
+                //    .AddEnvironmentVariables()
+                //    .Build();
+                //AzureBlobSettings azureBlobSettings = config.GetRequiredSection("AzureBlob").Get<AzureBlobSettings>();
 
-                string connectionString = azureBlobSettings.ConnectionString;
-                BlobServiceClient serviceClient = new BlobServiceClient(connectionString);
-                BlobContainerClient containerClient = serviceClient.GetBlobContainerClient("public");
+                //string connectionString = azureBlobSettings.ConnectionString;
+                //BlobServiceClient serviceClient = new BlobServiceClient(connectionString);
+                //BlobContainerClient containerClient = serviceClient.GetBlobContainerClient("public");
                 //string localPath = "./Data/";
                 //string fileName = azureBlobSettings.FileName;
                 //string downloadFilePath = Path.Combine(localPath, fileName);
