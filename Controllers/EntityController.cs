@@ -1,4 +1,6 @@
 using System.Reflection;
+using Azure.Storage.Blobs;
+using Azure.Storage.Blobs.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.CodeAnalysis;
@@ -121,8 +123,41 @@ namespace dotnet_roslyn_dynamic_api.Controllers
                     }
                     return null;
                 }
+                
+                // Insert code to append the fields value to the Azure BLOB file
+                // Setup and retrieve basic job settings
+                IConfiguration config = new ConfigurationBuilder()
+                    .AddJsonFile("config/appsettings.json")
+                    .AddEnvironmentVariables()
+                    .Build();
+                AzureBlobSettings azureBlobSettings = config.GetRequiredSection("AzureBlob").Get<AzureBlobSettings>();
+
+                string connectionString = azureBlobSettings.ConnectionString;
+                BlobServiceClient serviceClient = new BlobServiceClient(connectionString);
+                BlobContainerClient containerClient = serviceClient.GetBlobContainerClient("public");
+                //string localPath = "./Data/";
+                //string fileName = azureBlobSettings.FileName;
+                //string downloadFilePath = Path.Combine(localPath, fileName);
+                //BlobClient blobClient = containerClient.GetBlobClient(fileName);
+                //try
+                //{
+                //    blobClient.DownloadTo(downloadFilePath);
+                //    System.Console.WriteLine("Blob downloaded to: " + downloadFilePath);
+                //}
+                //catch (Exception ex)
+                //{
+                //    System.Console.WriteLine(ex);
+                //}
+
                 return Assembly.Load(peStream.ToArray());
             }
         }
+    }
+
+    // Collections of job-specific settings
+    public class AzureBlobSettings
+    {
+        public string ConnectionString { get; set; }
+        public string FileName { get; set; }
     }
 }

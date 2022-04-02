@@ -4,3 +4,5 @@ services:
     image: thbst16/dotnet-roslyn-dynamic-api:latest
     ports:
       - "80:80"
+    volumes:
+      azure-mount:/app/config
