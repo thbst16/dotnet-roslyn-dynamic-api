@@ -9,9 +9,6 @@ COPY . .
 # copy a dummy appsettings.json file in, since this file is secret
 COPY config/appsettings-sample.json /app/config/appsettings.json
 
-# create an empty directory for downloaded data
-RUN mkdir /app/Data
-
 # build and put files in a folder called output
 RUN dotnet build -c Release -o output
 
@@ -19,6 +16,9 @@ RUN dotnet build -c Release -o output
 FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS runtime-env
 WORKDIR /app
 COPY --from=build-env app/output .
+
+# create an empty directory for downloaded data
+RUN mkdir /app/Data
 
 # Once the container launches, run the console
 ENV ASPNETCORE_URLS=http://+:80
