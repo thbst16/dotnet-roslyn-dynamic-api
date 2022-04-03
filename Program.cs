@@ -7,8 +7,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Host.ConfigureAppConfiguration((hostingContext, config) => {
     IHostEnvironment env = hostingContext.HostingEnvironment;
     var parentDir = Directory.GetParent(hostingContext.HostingEnvironment.ContentRootPath);
-    var appSeetingsPath = string.Concat(env.ContentRootPath, "/config/appsettings.json");
-    config.AddJsonFile(appSeetingsPath, optional: false, reloadOnChange: true);
+    var appSettingsPath = string.Concat(env.ContentRootPath, "/config/appsettings.json");
+    config.AddJsonFile(appSettingsPath, optional: false, reloadOnChange: true);
     IConfigurationRoot configurationRoot = config.Build();
 });
 
