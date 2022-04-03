@@ -4,6 +4,14 @@ using dotnet_roslyn_dynamic_api;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Host.ConfigureAppConfiguration((hostingContext, config) => {
+    IHostEnvironment env = hostingContext.HostingEnvironment;
+    var parentDir = Directory.GetParent(hostingContext.HostingEnvironment.ContentRootPath);
+    var appSeetingsPath = string.Concat(env.ContentRootPath, "/config/appsettings.json");
+    config.AddJsonFile(appSeetingsPath, optional: false, reloadOnChange: true);
+    IConfigurationRoot configurationRoot = config.Build();
+});
+
 // Add services to the container.
 builder.Services.AddControllers();
 // Add IActionDescriptorChange Provider -- supports invalidation of MVC cached collection of ActionDescriptors
