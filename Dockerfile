@@ -9,6 +9,9 @@ COPY . .
 # copy a dummy appsettings.json file in, since this file is secret
 COPY config/appsettings-sample.json /app/config/appsettings.json
 
+# create an empty directory for downloaded data
+RUN mkdir /app/Data
+
 # build and put files in a folder called output
 RUN dotnet build -c Release -o output
 
