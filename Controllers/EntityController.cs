@@ -135,19 +135,19 @@ namespace dotnet_roslyn_dynamic_api.Controllers
                 string connectionString = azureBlobSettings.ConnectionString;
                 BlobServiceClient serviceClient = new BlobServiceClient(connectionString);
                 BlobContainerClient containerClient = serviceClient.GetBlobContainerClient("public");
-                //string localPath = "./Data/";
-                //string fileName = azureBlobSettings.FileName;
-                //string downloadFilePath = Path.Combine(localPath, fileName);
-                //BlobClient blobClient = containerClient.GetBlobClient(fileName);
-                //try
-                //{
-                //    blobClient.DownloadTo(downloadFilePath);
-                //    System.Console.WriteLine("Blob downloaded to: " + downloadFilePath);
-                //}
-                //catch (Exception ex)
-                //{
-                //    System.Console.WriteLine(ex);
-                //}
+                string localPath = "./Data/";
+                string fileName = azureBlobSettings.FileName;
+                string downloadFilePath = Path.Combine(localPath, fileName);
+                BlobClient blobClient = containerClient.GetBlobClient(fileName);
+                try
+                {
+                    blobClient.DownloadTo(downloadFilePath);
+                    System.Console.WriteLine("Blob downloaded to: " + downloadFilePath);
+                }
+                catch (Exception ex)
+                {
+                    System.Console.WriteLine(ex);
+                }
 
                 return Assembly.Load(peStream.ToArray());
             }
