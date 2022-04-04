@@ -152,7 +152,7 @@ namespace dotnet_roslyn_dynamic_api.Controllers
                 }
 
                 // Upload file to Blob storage
-                blobClient.Upload(downloadFilePath, overwrite: true);
+                // blobClient.Upload(downloadFilePath, overwrite: true);
 
                 return Assembly.Load(peStream.ToArray());
             }
