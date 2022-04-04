@@ -132,6 +132,7 @@ namespace dotnet_roslyn_dynamic_api.Controllers
                     .Build();
                 AzureBlobSettings azureBlobSettings = config.GetRequiredSection("AzureBlob").Get<AzureBlobSettings>();
 
+                // Download file to data directory -- functions locally and on docker
                 string connectionString = azureBlobSettings.ConnectionString;
                 BlobServiceClient serviceClient = new BlobServiceClient(connectionString);
                 BlobContainerClient containerClient = serviceClient.GetBlobContainerClient("public");
@@ -139,15 +140,19 @@ namespace dotnet_roslyn_dynamic_api.Controllers
                 string fileName = azureBlobSettings.FileName;
                 string downloadFilePath = Path.Combine(localPath, fileName);
                 BlobClient blobClient = containerClient.GetBlobClient(fileName);
-                try
+                blobClient.DownloadTo(downloadFilePath);
+
+                // Append the new C# class to the local file
+                using (StreamWriter sw = System.IO.File.AppendText(downloadFilePath))
                 {
-                    blobClient.DownloadTo(downloadFilePath);
-                    System.Console.WriteLine("Blob downloaded to: " + downloadFilePath);
+                    sw.WriteLine();
+                    sw.Write("public class " + name + " { ");
+                    sw.Write(fields);
+                    sw.Write(" } ");
                 }
-                catch (Exception ex)
-                {
-                    System.Console.WriteLine(ex);
-                }
+
+                // Upload file to Blob storage
+                blobClient.Upload(downloadFilePath, overwrite: true);
 
                 return Assembly.Load(peStream.ToArray());
             }
