@@ -1,5 +1,5 @@
-@host = https://localhost:5001
-## @host = https://dotnet-roslyn-dynamic-api.azurewebsites.net/
+##@host = https://localhost:5001
+@host = https://dotnet-roslyn-dynamic-api.azurewebsites.net/
 @contentType = application/json
 
 GET {{host}}/Swagger/index.html
