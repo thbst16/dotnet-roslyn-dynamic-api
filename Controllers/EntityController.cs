@@ -2,6 +2,7 @@ using Azure.Storage.Blobs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.CodeAnalysis;
+using Microsoft.Extensions.Configuration;
 using dotnet_roslyn_dynamic_api.Models;
 
 namespace dotnet_roslyn_dynamic_api.Controllers
@@ -11,10 +12,12 @@ namespace dotnet_roslyn_dynamic_api.Controllers
     public class EntityController : ControllerBase
     {
         private Storage<Entity> _storage;
+        private readonly IConfiguration _configuration;
 
-        public EntityController(Storage<Entity> storage)
+        public EntityController(Storage<Entity> storage, IConfiguration configuration)
         {
             _storage = storage;
+            _configuration = configuration;
             // Seed initial entities
 
             if (_storage.GetAll().Count() == 0)
@@ -58,20 +61,20 @@ namespace dotnet_roslyn_dynamic_api.Controllers
         {
             // Insert code to append the fields value to the Azure BLOB file
             // Setup and retrieve basic job settings
-            IConfiguration config = new ConfigurationBuilder()
-                .AddJsonFile("config/appsettings.json")
-                .AddEnvironmentVariables()
-                .Build();
+            // IConfiguration config = new ConfigurationBuilder()
+              //  .AddJsonFile("config/appsettings.json")
+              //  .AddEnvironmentVariables()
+              //  .Build();
             // AzureBlobSettings azureBlobSettings = config.GetRequiredSection("AzureBlob").Get<AzureBlobSettings>();
 
             // Download file to data directory -- functions locally and on docker
             // string connectionString = azureBlobSettings.ConnectionString;
-            string connectionString = config.GetValue<string>("AzureBlob:ConnectionString");
+            string connectionString = _configuration.GetValue<string>("AzureBlob:ConnectionString");
             BlobServiceClient serviceClient = new BlobServiceClient(connectionString);
             BlobContainerClient containerClient = serviceClient.GetBlobContainerClient("public");
             string localPath = "./Data/";
             // string fileName = azureBlobSettings.FileName;
-            string fileName = config.GetValue<string>("AzureBlob:FileName");
+            string fileName = _configuration.GetValue<string>("AzureBlob:FileName");
             string downloadFilePath = Path.Combine(localPath, fileName);
             BlobClient blobClient = containerClient.GetBlobClient(fileName);
             blobClient.DownloadTo(downloadFilePath);

@@ -7,7 +7,7 @@ WORKDIR /app
 # copy the working directory contents into the container at /app
 COPY . .
 # copy a dummy appsettings.json file in, since this file is secret
-COPY config/appsettings-sample.json /app/config/appsettings.json
+COPY appsettings-sample.json /app/appsettings.json
 
 # build and put files in a folder called output
 RUN dotnet build -c Release -o output
