@@ -5,4 +5,4 @@ services:
     ports:
       - "80:80"
     volumes:
-      - azure-mount:/app
+      - azure-mount:/app/config
