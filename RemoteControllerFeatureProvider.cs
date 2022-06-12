@@ -12,7 +12,14 @@ namespace dotnet_roslyn_dynamic_api
     {   
         public void PopulateFeature(IEnumerable<ApplicationPart> parts, ControllerFeature feature)
         {
-            var remoteCode = new HttpClient().GetStringAsync("https://sheetnotifications.blob.core.windows.net/public/rosslyn-classes.txt").GetAwaiter().GetResult();
+            // Dynamic location of rosslyn config classes
+            // Must pull from remote location for original class definitions
+            IConfiguration config = new ConfigurationBuilder()
+                .AddJsonFile("config/appsettings.json")
+                .AddEnvironmentVariables()
+                .Build();
+            string connectionString = config.GetValue<string>("AzureBlob:Url");
+            var remoteCode = new HttpClient().GetStringAsync(connectionString).GetAwaiter().GetResult();
             if (remoteCode != null)
             {
                 var compilation = CSharpCompilation.Create("DynamicAssembly", new[] { CSharpSyntaxTree.ParseText(remoteCode) },

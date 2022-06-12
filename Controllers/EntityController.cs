@@ -62,15 +62,12 @@ namespace dotnet_roslyn_dynamic_api.Controllers
                 .AddJsonFile("config/appsettings.json")
                 .AddEnvironmentVariables()
                 .Build();
-            // AzureBlobSettings azureBlobSettings = config.GetRequiredSection("AzureBlob").Get<AzureBlobSettings>();
 
             // Download file to data directory -- functions locally and on docker
-            // string connectionString = azureBlobSettings.ConnectionString;
             string connectionString = config.GetValue<string>("AzureBlob:ConnectionString");
             BlobServiceClient serviceClient = new BlobServiceClient(connectionString);
             BlobContainerClient containerClient = serviceClient.GetBlobContainerClient("public");
             string localPath = "./Data/";
-            // string fileName = azureBlobSettings.FileName;
             string fileName = config.GetValue<string>("AzureBlob:FileName");
             string downloadFilePath = Path.Combine(localPath, fileName);
             BlobClient blobClient = containerClient.GetBlobClient(fileName);
@@ -88,12 +85,5 @@ namespace dotnet_roslyn_dynamic_api.Controllers
             // Upload file to Blob storage
             blobClient.Upload(downloadFilePath, overwrite: true);
         }
-    }
-
-    // Collections of job-specific settings
-    public class AzureBlobSettings
-    {
-        public string ConnectionString { get; set; }
-        public string FileName { get; set; }
     }
 }
