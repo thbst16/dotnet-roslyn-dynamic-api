@@ -1,3 +1,4 @@
+## nunce change to force rebuild
 ##@host = https://localhost:5001
 @host = https://dotnet-roslyn-dynamic-api.azurewebsites.net/
 @contentType = application/json
