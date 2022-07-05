@@ -6,8 +6,8 @@
 		<RootNamespace>dotnet_roslyn_dynamic_api</RootNamespace>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Azure.Storage.Blobs" Version="12.11.0"/>
-		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.1.0"/>
+		<PackageReference Include="Azure.Storage.Blobs" Version="12.12.0"/>
+		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.2.0"/>
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.1"/>
 	</ItemGroup>
 </Project>
